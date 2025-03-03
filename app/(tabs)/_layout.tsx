@@ -1,8 +1,16 @@
 import TabIcon from "@/components/TabIcon";
-import { Tabs } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
+import { Redirect, Tabs } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import navigationData from "../../constants/navigation";
 
 const TabsLayout = () => {
+  const user = useAuth();
+
+  if (!user) {
+    return <Redirect href="/sign-in" />;
+  }
+
   return (
     <>
       <Tabs
@@ -29,6 +37,7 @@ const TabsLayout = () => {
           />
         ))}
       </Tabs>
+      <StatusBar backgroundColor="#0B0C10" style="dark" />
     </>
   );
 };

@@ -3,12 +3,18 @@ import { useFonts } from "expo-font";
 import "../assets/global.css";
 import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
-import { View } from "react-native";
+import { useAuthStore } from "@/store/useAuthStore";
+import Toast from "react-native-toast-message";
 
 SplashScreen.preventAutoHideAsync();
+SystemUI.setBackgroundColorAsync("#0B0C10");
 
 export default function RootLayout() {
-  SystemUI.setBackgroundColorAsync("#0B0C10");
+  const loadUser = useAuthStore((state) => state.loadUser);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
 
   const [fontsLoaded, error] = useFonts({
     "OpenSans-Regular": require("../assets/fonts/OpenSans-Regular.ttf"),
@@ -29,12 +35,14 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           contentStyle: { backgroundColor: "#0B0C10" },
+          headerShown: false,
         }}
       >
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
+      <Toast />
     </>
   );
 }

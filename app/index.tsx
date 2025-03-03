@@ -1,11 +1,18 @@
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { ScrollView, View } from "react-native";
 import "../assets/global.css";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StyledButton from "@/components/ui/StyledButton";
+import { useAuth } from "@/hooks/useAuth";
 
 const App = () => {
+  const user = useAuth();
+
+  if (user) {
+    return <Redirect href="/home" />;
+  }
+
   return (
     <SafeAreaView className="bg-black h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>

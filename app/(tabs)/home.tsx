@@ -1,5 +1,5 @@
 import StyledText from "@/components/ui/StyledText";
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const Home = () => {
