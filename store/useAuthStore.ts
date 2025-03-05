@@ -7,6 +7,7 @@ import { errorCatch } from "@/api/api.helpers";
 
 interface IAuthState {
   user: IUser | null;
+  isLoading: boolean;
   register: (
     email: string,
     password: string,
@@ -20,6 +21,7 @@ interface IAuthState {
 
 export const useAuthStore = create<IAuthState>((set) => ({
   user: null,
+  isLoading: false,
 
   register: async (
     email: string,
@@ -28,6 +30,8 @@ export const useAuthStore = create<IAuthState>((set) => ({
     name: string
   ) => {
     try {
+      set({ isLoading: false });
+
       const res = await AuthService.register(email, password, userName, name);
       Toast.show({
         type: "success",
@@ -41,11 +45,15 @@ export const useAuthStore = create<IAuthState>((set) => ({
         text1: "Реєстрація",
         text2: errorCatch(error),
       });
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   login: async (email: string, password: string) => {
     try {
+      set({ isLoading: true });
+
       const res = await AuthService.login(email, password);
       Toast.show({
         type: "success",
@@ -59,6 +67,8 @@ export const useAuthStore = create<IAuthState>((set) => ({
         text1: "Авторизація",
         text2: errorCatch(error),
       });
+    } finally {
+      set({ isLoading: false });
     }
   },
 

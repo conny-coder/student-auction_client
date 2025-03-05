@@ -1,9 +1,10 @@
+import StyledText from "@/components/ui/StyledText";
 import { Text, View } from "react-native";
 
 const Auctions = () => {
   return (
-    <View>
-      <Text>Auction</Text>
+    <View className="bg-black h-full">
+      <StyledText className="mt-20">Auction</StyledText>
     </View>
   );
 };

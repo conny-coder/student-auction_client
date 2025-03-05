@@ -3,6 +3,9 @@ import { useAuth } from "@/hooks/useAuth";
 import { Redirect, Tabs } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import navigationData from "../../constants/navigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const TabsLayout = () => {
   const user = useAuth();
@@ -12,7 +15,7 @@ const TabsLayout = () => {
   }
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
@@ -38,7 +41,7 @@ const TabsLayout = () => {
         ))}
       </Tabs>
       <StatusBar backgroundColor="#0B0C10" style="dark" />
-    </>
+    </QueryClientProvider>
   );
 };
 export default TabsLayout;

@@ -1,14 +1,19 @@
 import { FC } from "react";
 import { Text } from "react-native";
+import { TextProps } from "react-native/Libraries/Text/Text";
 
-interface StyledTextProps {
+interface StyledTextProps extends TextProps {
   children: React.ReactNode;
   className?: string;
 }
 
-const StyledText: FC<StyledTextProps> = ({ children, className = "" }) => {
+const StyledText: FC<StyledTextProps> = ({
+  children,
+  className = "",
+  ...rest
+}) => {
   return (
-    <Text className={`font-opensregular text-primary ${className}`}>
+    <Text {...rest} className={`font-opensregular text-primary ${className}`}>
       {children}
     </Text>
   );

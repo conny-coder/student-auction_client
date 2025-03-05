@@ -1,3 +1,4 @@
+import { getContentType } from "@/api/api.helpers";
 import { axiosClassic } from "@/api/interceptors";
 import { getAuthUrl } from "@/config/api.config";
 import { IAuthResponse } from "@/types/auth.types";
@@ -33,5 +34,18 @@ export const AuthService = {
   async logout() {
     await AsyncStorage.removeItem("user");
     removeTokensStorage();
+  },
+
+  async getNewTokens() {
+    const refreshToken = AsyncStorage.getItem("refreshToken");
+    const response = await axiosClassic.post<IAuthResponse>(
+      getAuthUrl("/login/access-token"),
+      { refreshToken },
+      { headers: getContentType() }
+    );
+
+    if (response.data.accessToken) saveToStorage(response.data);
+
+    return response;
   },
 };

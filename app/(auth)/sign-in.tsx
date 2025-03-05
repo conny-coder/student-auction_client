@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import StyledButton from "@/components/ui/StyledButton";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Controller, useForm } from "react-hook-form";
+import Loader from "@/components/Loader";
 
 interface ISignIn {
   email: string;
@@ -14,7 +15,7 @@ interface ISignIn {
 }
 
 const SignIn = () => {
-  const { login } = useAuthStore((state) => state);
+  const { login } = useAuthStore();
 
   const {
     control,
@@ -125,6 +126,7 @@ const SignIn = () => {
               </Link>
             </View>
           </View>
+          <Loader />
         </View>
       </ScrollView>
 
