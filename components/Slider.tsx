@@ -1,13 +1,13 @@
-import React, { FC, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { View, FlatList, ListRenderItemInfo } from "react-native";
-import Auction, { AuctionProps } from "./Auction";
 
-interface ISlider {
-  data: AuctionProps[];
+interface ISlider<T> {
+  data: T[];
+  renderItem: (item: T, index: number) => React.ReactElement;
 }
 
-const Slider: FC<ISlider> = ({ data }) => {
-  const flatListRef = useRef<FlatList<string>>(null);
+const Slider = <T,>({ data, renderItem }: ISlider<T>) => {
+  const flatListRef = useRef<FlatList<T>>(null);
 
   return (
     <View>
@@ -18,18 +18,13 @@ const Slider: FC<ISlider> = ({ data }) => {
         pagingEnabled
         snapToAlignment="start"
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item: any) => item._id}
+        keyExtractor={(item: any, index: number) =>
+          item._id ? item._id : index.toString()
+        }
         ItemSeparatorComponent={() => <View style={{ width: 15 }} />}
-        renderItem={({ item }: ListRenderItemInfo<any>) => (
-          <Auction
-            _id={item._id}
-            currentBid={item.currentBid}
-            endTime={item.endTime}
-            image={item.image}
-            isFavorite={item.isFavorite}
-            title={item.title}
-          />
-        )}
+        renderItem={({ item, index }: ListRenderItemInfo<T>) =>
+          renderItem(item, index)
+        }
       />
     </View>
   );

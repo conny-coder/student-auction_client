@@ -26,7 +26,7 @@ const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = ({
     <TouchableOpacity
       className={`w-full ${size === "big" ? "py-[10px]" : "py-[6px]"} ${
         colors[color]
-      } rounded-xl mb-4 ${className}`}
+      } rounded-xl ${className}`}
       onPress={handlePress}
     >
       <StyledText

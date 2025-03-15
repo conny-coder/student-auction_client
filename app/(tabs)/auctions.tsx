@@ -1,11 +1,8 @@
-import StyledText from "@/components/ui/StyledText";
-import { Text, View } from "react-native";
+import Auctions from "@/components/screens/auctions/Auctions";
 
-const Auctions = () => {
+const AuctionsPage = () => {
   return (
-    <View className="bg-black h-full">
-      <StyledText className="mt-20">Auction</StyledText>
-    </View>
+    <Auctions />
   );
 };
-export default Auctions;
+export default AuctionsPage;

@@ -5,6 +5,9 @@ import * as SystemUI from "expo-system-ui";
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import Toast from "react-native-toast-message";
+import { TabHeader } from "@/components/TabHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { SingleHeader } from "@/components/SingleHeader";
 
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync("#0B0C10");
@@ -31,19 +34,22 @@ export default function RootLayout() {
   if (!fontsLoaded && !error) return null;
 
   return (
-    <>
+    <SafeAreaView className="flex-1 bg-black">
       <Stack
         screenOptions={{
           contentStyle: { backgroundColor: "#0B0C10" },
-          headerShown: false,
+          header: () => <TabHeader />,
         }}
       >
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="auction/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="auction/[id]"
+          options={{ header: () => <SingleHeader title="Аукціон" /> }}
+        />
       </Stack>
       <Toast />
-    </>
+    </SafeAreaView>
   );
 }

@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import StyledButton from "@/components/ui/StyledButton";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Controller, useForm } from "react-hook-form";
-import Loader from "@/components/Loader";
+import Loader from "@/components/loaders/Loader";
 
 interface ISignIn {
   email: string;

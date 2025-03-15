@@ -3,7 +3,7 @@ import { AuctionService } from "@/services/auction.service";
 import { useQuery } from "@tanstack/react-query";
 
 export const useHomeAuctions = () => {
-  const { data, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["home-auctions"],
     queryFn: () => AuctionService.getAll(),
     select: ({ data }) => data.slice(0, 8),
@@ -22,6 +22,6 @@ export const useHomeAuctions = () => {
 
   return {
     auctions,
-    error,
+    isLoading,
   };
 };

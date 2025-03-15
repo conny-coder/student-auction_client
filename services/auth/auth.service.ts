@@ -37,7 +37,7 @@ export const AuthService = {
   },
 
   async getNewTokens() {
-    const refreshToken = AsyncStorage.getItem("refreshToken");
+    const refreshToken = await AsyncStorage.getItem("refreshToken");
     const response = await axiosClassic.post<IAuthResponse>(
       getAuthUrl("/login/access-token"),
       { refreshToken },
