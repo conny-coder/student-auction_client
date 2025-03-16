@@ -14,6 +14,7 @@ export interface AuctionProps
     "_id" | "title" | "isFavorite" | "currentBid" | "endTime"
   > {
   image: string;
+  isBig?: boolean;
 }
 
 const Auction: FC<AuctionProps> = ({
@@ -23,6 +24,7 @@ const Auction: FC<AuctionProps> = ({
   endTime,
   isFavorite,
   image,
+  isBig = false,
 }) => {
   const [imageUri, setImageUri] = useState(
     image ? `${API_SERVER_URL}${image}` : null
@@ -34,7 +36,7 @@ const Auction: FC<AuctionProps> = ({
       <View>
         <Image
           source={imageUri ? { uri: imageUri } : fallbackImage}
-          style={{
+          style={isBig ? { width: "100%", height: 200, borderRadius: 10, objectFit: "cover" } : {
             width: 250,
             height: 140,
             objectFit: "cover",
@@ -47,7 +49,7 @@ const Auction: FC<AuctionProps> = ({
           <View className="mt-auto">
             <StyledText
               numberOfLines={1}
-              className="text-base font-opensmedium whitespace-nowrap overflow-hidden text-ellipsis"
+              className="text-lg font-opensmedium whitespace-nowrap overflow-hidden text-ellipsis"
               style={{
                 textShadowColor: "rgba(0,0,0,0.75)",
                 textShadowOffset: { width: 1, height: 1 },
@@ -62,7 +64,7 @@ const Auction: FC<AuctionProps> = ({
                 textShadowOffset: { width: 1, height: 1 },
                 textShadowRadius: 2,
               }}
-              className="text-sm font-opensregular text-gray-70p"
+              className="text-base font-opensregular text-gray-70p"
             >
               Поточна ціна: {currentBid} грн
             </StyledText>
@@ -72,7 +74,7 @@ const Auction: FC<AuctionProps> = ({
 
       <StyledButton
         handlePress={() => router.push(`/auction/${_id}`)}
-        size="small"
+        size={isBig ? "big" : "small"}
         className="mt-2"
       >
         Зробити ставку

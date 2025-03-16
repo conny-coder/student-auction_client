@@ -1,17 +1,19 @@
 import React, { FC, useEffect, useRef } from "react";
-import { Animated, View } from "react-native";
+import { Animated, DimensionValue, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import {ViewProps} from "react-native/Libraries/Components/View/ViewPropTypes";
 
-interface SkeletonLoaderProps {
+interface SkeletonLoaderProps extends ViewProps {
   className?: string;
-  width: number;
-  height: number;
+  width: DimensionValue;
+  height: DimensionValue;
 }
 
 const SkeletonLoader: FC<SkeletonLoaderProps> = ({
-  height,
+  className,
   width,
-  className = "",
+  height,
+  ...props
 }) => {
   const containerWidth = 500;
   const stripeWidth = 500;
@@ -40,8 +42,9 @@ const SkeletonLoader: FC<SkeletonLoaderProps> = ({
 
   return (
     <View
-      style={{ width, height }}
-      className={`w-full h-32 bg-gray-400 overflow-hidden rounded-lg ${className}`}
+      {...props}
+      style={{width, height}}
+      className={`w-full h-32 bg-gray-400 overflow-hidden ${className}`}
     >
       <Animated.View
         className="absolute inset-0"
