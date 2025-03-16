@@ -6,24 +6,40 @@ import SearchInput from "@/components/ui/SearchInput";
 import StyledText from "@/components/ui/StyledText";
 import { useEffect, useState } from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import Filter from "./Filter";
+import Filter from "./filter/Filter";
 import Sort from "./Sort";
-import { useAuctions } from "./useAuctions";
+import { AuctionParams, useAuctions } from "./useAuctions";
+
+export const initialParams: AuctionParams = {
+  search: "",
+  category: "",
+  price: "",
+  condition: "",
+  sortBy: "popularity",
+};
 
 const Auctions = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isShowSort, setIsShowSort] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [query, setQuery] = useState<AuctionParams>(initialParams);
 
-  const {auctions, isLoading, refetchWithParams} = useAuctions();
+  const {auctions, isLoading, refetchWithParams} = useAuctions(query);
 
   const handleSubmitInput = (text: string) => {
-    setSearchValue(text);
+    setQuery({ ...query, search: text });
+  }
+
+  const changeSort = (newSort: 'newest' | 'popularity' | 'priceUp' | 'priceDown') => {
+    setQuery({ ...query, sortBy: newSort });
+  }
+
+  const changeQuery = (newQuery: AuctionParams) => {
+    setQuery(newQuery);
   }
 
   useEffect(() => {
-    refetchWithParams({search: searchValue})
-  }, [searchValue])
+    refetchWithParams(query)
+  }, [query])
   
   const openFilter = () => {
     setIsShowFilter(true);
@@ -67,8 +83,8 @@ const Auctions = () => {
           }
         </View>
       </View>
-      <Filter isShow={isShowFilter} close={closeFilter} />
-      <Sort isShow={isShowSort} close={closeSort} />
+      <Filter query={query} handleSubmit={changeQuery} isShow={isShowFilter} close={closeFilter} />
+      <Sort initialValue={query.sortBy} onChangeSort={changeSort} isShow={isShowSort} close={closeSort} />
     </ScrollView>
   );
 };

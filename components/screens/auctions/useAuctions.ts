@@ -3,12 +3,12 @@ import { AuctionProps } from "@/components/Auction";
 import { AuctionService } from "@/services/auction.service";
 import { useQuery } from "@tanstack/react-query";
 
-interface AuctionParams {
+export interface AuctionParams {
   category?: string;
   search?: string;
   price?: string;
-  condition?: "new" | "used";
-  sortBy?: 'newest' | 'popularity' | 'priceUp' | 'priceDown';
+  condition?: "new" | "used" | "";
+  sortBy: 'newest' | 'popularity' | 'priceUp' | 'priceDown';
 }
 
 export const useAuctions = (initialParams?: AuctionParams) => {
