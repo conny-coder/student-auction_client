@@ -16,7 +16,7 @@ export const useHomeAuctions = () => {
         image: auction.images[0],
         currentBid: auction.currentBid,
         endTime: auction.endTime,
-        isFavorite: auction.isFavorite,
+        isFavourite: auction.isFavourite,
       }))
     : [];
 

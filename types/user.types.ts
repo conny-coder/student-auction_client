@@ -4,3 +4,13 @@ export interface IUser {
   userName: string;
   isAdmin: boolean;
 }
+
+export interface IProfile extends IUser {
+  bidsCount: number;
+  winnersCount: number;
+  soldCount: number;
+  rating: number;
+  balance: number;
+  name: string;
+  avatar: string;
+}

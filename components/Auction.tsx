@@ -1,9 +1,11 @@
 import { API_SERVER_URL } from "@/config/api.config";
+import {FavoriteAuctionService} from "@/services/favorite-auction.service";
 import { IAuction } from "@/types/auction.types";
 import { getTimeLeft } from "@/utils/get-time-left";
 import { router } from "expo-router";
 import { FC, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import AuctionFavorite from "./ui/AuctionFavorite";
 import AuctionTime from "./ui/AuctionTime";
 import StyledButton from "./ui/StyledButton";
 import StyledText from "./ui/StyledText";
@@ -11,7 +13,7 @@ import StyledText from "./ui/StyledText";
 export interface AuctionProps
   extends Pick<
     IAuction,
-    "_id" | "title" | "isFavorite" | "currentBid" | "endTime"
+    "_id" | "title" | "isFavourite" | "currentBid" | "endTime"
   > {
   image: string;
   isBig?: boolean;
@@ -22,10 +24,26 @@ const Auction: FC<AuctionProps> = ({
   _id,
   currentBid,
   endTime,
-  isFavorite,
+  isFavourite,
   image,
   isBig = false,
 }) => {
+  const [isFavoriteState, setIsFavoriteState] = useState(isFavourite);
+
+  const changeFavorite = async (isFavorite: boolean) =>
+  {
+    setIsFavoriteState( isFavorite );
+
+    if ( !isFavorite )
+    {
+      await FavoriteAuctionService.delete( _id );
+    } else
+    {
+      await FavoriteAuctionService.set( _id );
+    }
+  };
+
+
   const [imageUri, setImageUri] = useState(
     image ? `${API_SERVER_URL}${image}` : null
   );
@@ -69,6 +87,9 @@ const Auction: FC<AuctionProps> = ({
               Поточна ціна: {currentBid} грн
             </StyledText>
           </View>
+          <Pressable onPress={() => changeFavorite(!isFavoriteState)} className="absolute" style={{ top: 0, right: 3 }}>
+            <AuctionFavorite isFavorite={isFavoriteState} />
+          </Pressable>
         </View>
       </View>
 

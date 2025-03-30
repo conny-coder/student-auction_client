@@ -12,5 +12,5 @@ export interface IAuction {
   step: number;
   condition: "new" | "used";
   currentBid: number;
-  isFavorite: boolean;
+  isFavourite: boolean;
 }

@@ -27,7 +27,7 @@ export const useAuctions = (initialParams?: AuctionParams) => {
         image: auction.images[0],
         currentBid: auction.currentBid,
         endTime: auction.endTime,
-        isFavorite: auction.isFavorite,
+        isFavourite: auction.isFavourite,
       }))
     : [];
 
