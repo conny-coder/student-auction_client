@@ -14,3 +14,14 @@ export interface IAuction {
   currentBid: number;
   isFavourite: boolean;
 }
+
+export interface IAuctionForm {
+  title: string;
+  description: string;
+  images: string[];
+  category: string;
+  startPrice: number;
+  endTime: number;
+  condition: "new" | "used";
+  location: string;
+}

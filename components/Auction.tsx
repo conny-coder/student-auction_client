@@ -43,9 +43,8 @@ const Auction: FC<AuctionProps> = ({
     }
   };
 
-
   const [imageUri, setImageUri] = useState(
-    image ? `${API_SERVER_URL}${image}` : null
+    image ? image : null
   );
   const fallbackImage = require("@/assets/images/no-image.jpg");
 

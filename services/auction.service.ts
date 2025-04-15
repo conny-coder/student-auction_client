@@ -6,4 +6,8 @@ export const AuctionService = {
   async getAll(params?: Record<string, any>) {
     return axios.get<IAuction[]>(getAuctionsUrl(""), { params });
   },
+
+  async create(auction: Omit<IAuction , "_id" | "ownerId" | "highestBidderId" | "status" | "currentBid" | "isFavourite">) {
+    return axios.post<IAuction>(getAuctionsUrl(""), auction);
+  }
 };

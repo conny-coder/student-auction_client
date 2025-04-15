@@ -1,10 +1,8 @@
-import { Text, View } from "react-native";
+import Create from "@/components/screens/create/Create";
 
-const Create = () => {
+const CreatePage = () => {
   return (
-    <View>
-      <Text>Create</Text>
-    </View>
+    <Create />
   );
 };
-export default Create;
+export default CreatePage;
