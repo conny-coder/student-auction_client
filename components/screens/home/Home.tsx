@@ -6,12 +6,11 @@ import StyledText from "@/components/ui/StyledText";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useHomeAuctions } from "./useHomeAuctions";
+import { useAuctions } from "../auctions/useAuctions";
 
 const Home = () => {
   const user = useAuth();
-  const { auctions, isLoading } = useHomeAuctions();
+  const { auctions, isLoading } = useAuctions();
 
   return (
     <ScrollView className="bg-black">
@@ -35,7 +34,7 @@ const Home = () => {
             ></Slider>
           ) : (
             <Slider
-              data={auctions}
+              data={auctions.slice(0, 8)}
               renderItem={(item, index) => <Auction {...item} key={index} />}
             />
           )}
@@ -56,7 +55,7 @@ const Home = () => {
             ></Slider>
           ) : (
             <Slider
-              data={auctions}
+              data={auctions.slice(0, 8)}
               renderItem={(item, index) => <Auction {...item} key={index} />}
             />
           )}

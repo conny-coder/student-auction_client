@@ -34,25 +34,28 @@ const LabeledInputField: React.FC<LabeledInputFieldProps> = ({
         name={name}
         rules={rules}
         render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-          <View className="flex-row justify-between items-center">
-            <StyledText className="text-lg" style={labelStyle}>
-              {label}
-            </StyledText>
-            <InputComponent
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value !== undefined ? value.toString() : ""}
-              {...inputProps}
-            />
+        <>
+            <View className="flex-row justify-between items-center">
+              <StyledText className="text-lg" style={labelStyle}>
+                {label}
+              </StyledText>
+              <InputComponent
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value !== undefined ? value.toString() : ""}
+                {...inputProps}
+              />
+
+            </View>
             {error && (
-              <Text
+              <StyledText
                 style={errorStyle}
-                className="absolute top-[2px] right-2 text-[10px] text-red font-openslight"
+                className="text-xs text-right text-red font-openslight"
               >
                 {error.message}
-              </Text>
+              </StyledText>
             )}
-          </View>
+        </>
         )}
       />
     </View>

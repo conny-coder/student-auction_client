@@ -74,7 +74,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           >
             <View
               style={{
-                backgroundColor: "#C5C6C7",
+                backgroundColor: "#292B2D",
               }}
               className="border border-gray-500 rounded-md"
             >

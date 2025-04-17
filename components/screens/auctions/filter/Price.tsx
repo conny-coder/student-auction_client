@@ -10,7 +10,8 @@ interface PriceProps {
   setEndPrice: (price: number) => void
 }
 
-const Price:FC<PriceProps> = ({endPrice,setEndPrice,setStartPrice,startPrice}) => {
+const Price: FC<PriceProps> = ( { endPrice, setEndPrice, setStartPrice, startPrice } ) =>
+{
   return (
     <View className="flex-row justify-between">
       <View>

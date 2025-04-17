@@ -8,9 +8,12 @@ import Toast from "react-native-toast-message";
 import { TabHeader } from "@/components/TabHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SingleHeader } from "@/components/SingleHeader";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync("#0B0C10");
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const loadUser = useAuthStore((state) => state.loadUser);
@@ -35,20 +38,22 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView className="flex-1 bg-black">
-      <Stack
-        screenOptions={{
-          contentStyle: { backgroundColor: "#0B0C10" },
-          header: () => <TabHeader />,
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen
-          name="auction/[id]"
-          options={{ header: () => <SingleHeader title="Аукціон" /> }}
-        />
-      </Stack>
+      <QueryClientProvider client={queryClient}>
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: "#0B0C10" },
+            header: () => <TabHeader />,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen
+            name="auction/[id]"
+            options={{ header: () => <SingleHeader title="Аукціон" /> }}
+          />
+        </Stack>
+      </QueryClientProvider>
       <Toast />
     </SafeAreaView>
   );

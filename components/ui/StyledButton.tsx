@@ -6,13 +6,15 @@ interface StyledButtonProps {
   handlePress: () => void;
   className?: string;
   size?: "small" | "big";
-  color?: "blue" | "green" | "gray";
+  color?: "blue" | "green" | "gray" | "red";
+  style? : any;
 }
 
 const colors = {
   blue: "bg-blue",
   green: "bg-green",
   gray: "bg-gray-30p",
+  red: "bg-red",
 };
 
 const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = ({
@@ -21,9 +23,11 @@ const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = ({
   children,
   size = "big",
   color = "green",
+  style
 }) => {
   return (
     <TouchableOpacity
+      style={style}
       className={`w-full ${size === "big" ? "py-[10px]" : "py-[6px]"} ${
         colors[color]
       } rounded-xl ${className}`}

@@ -2,13 +2,17 @@ import StyledText from "@/components/ui/StyledText";
 import { API_SERVER_URL } from "@/config/api.config";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, router } from "expo-router";
-import { Image, ScrollView, TouchableOpacity, View } from "react-native"
+import { Image, Pressable, ScrollView, TouchableOpacity, View } from "react-native"
 import InfoCard from "./InfoCard";
 import { useProfile } from "./useProfile";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const Profile = () => {
   const user = useAuth();
   const { data, isLoading } = useProfile( user?._id || "" );
+  const {logout} = useAuthStore();
+
+
 
   return (
     <ScrollView className="bg-black">
@@ -20,6 +24,8 @@ const Profile = () => {
               className="w-36 h-36 rounded-full"
             />
           </View>
+
+          <Pressable onPress={logout}><StyledText className="text-xl font-openssemibold">Редактировать</StyledText></Pressable>
 
           <View className="flex-col flex-1 justify-around">
             <StyledText className="text-xl">{data?.name}</StyledText>

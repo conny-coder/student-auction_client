@@ -9,5 +9,13 @@ export const AuctionService = {
 
   async create(auction: Omit<IAuction , "_id" | "ownerId" | "highestBidderId" | "status" | "currentBid" | "isFavourite">) {
     return axios.post<IAuction>(getAuctionsUrl(""), auction);
+  },
+
+  async getById(id: string) {
+    return axios.get<IAuction>(getAuctionsUrl(`/${id}`));
+  },
+
+  async delete(id: string) {
+    return axios.delete<void>(getAuctionsUrl(`/${id}`));
   }
 };

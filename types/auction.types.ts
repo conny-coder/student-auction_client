@@ -13,6 +13,7 @@ export interface IAuction {
   condition: "new" | "used";
   currentBid: number;
   isFavourite: boolean;
+  location: string;
 }
 
 export interface IAuctionForm {

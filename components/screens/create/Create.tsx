@@ -27,6 +27,7 @@ const Create: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<IAuctionForm>( {
     defaultValues: {
       category: "",
@@ -51,11 +52,11 @@ const Create: React.FC = () => {
       ...data,
       endTime: endDate.toISOString(),
       startPrice: +data.startPrice,
-      step: Math.round(data.startPrice * 0.01 / 10) * 10
+      step: Math.max(Math.round(data.startPrice * 0.01 / 10) * 10, 10)
     };
 
     await mutateAsync(transformedData);
-
+    reset();
   };
 
   const {categories, isLoading: isLoadingCategories} = useCategory()
@@ -122,20 +123,30 @@ const Create: React.FC = () => {
           InputComponent={FormTimeInput}
         />
 
-        <View className="mb-4 flex-row justify-between items-center">
-          <StyledText className="text-lg mb-2">Категорія:</StyledText>
-          <Controller
-            control={control}
-            name="category"
-            render={( { field: { onChange, value } } ) => (
-              <CustomSelect
-                items={categoryItems}
-                selectedValue={value}
-                onValueChange={( val ) => onChange( val )}
-                placeholder="Виберіть категорію"
-              />
-            )}
-          />
+        <View className="mb-4">
+          <View className="flex-row justify-between items-center">
+            <StyledText className="text-lg mb-2">Категорія:</StyledText>
+            <Controller
+              control={control}
+              name="category"
+              rules={{ required: { value: true, message: "Поле обов'язкове" } }}
+              render={( { field: { onChange, value } } ) => (
+                <CustomSelect
+                  items={categoryItems}
+                  selectedValue={value}
+                  onValueChange={( val ) => onChange( val )}
+                  placeholder="Виберіть категорію"
+                />
+              )}
+            />
+          </View>
+          {errors.category && (
+            <StyledText
+              className="text-xs text-right text-red font-openslight"
+            >
+              {errors.category.message}
+            </StyledText>
+          )}
         </View>
 
         <RadioGroupField
@@ -146,22 +157,33 @@ const Create: React.FC = () => {
           options={radioOptions}
         />
 
-        
-        <View className="mb-4 flex-row justify-between items-center">
-          <StyledText className="text-lg mb-2">Локація:</StyledText>
-          <Controller
-            control={control}
-            name="location"
-            render={( { field: { onChange, value } } ) => (
-              <CustomSelect
-                items={locationItems}
-                selectedValue={value}
-                onValueChange={( val ) => onChange( val )}
-                placeholder="Виберіть категорію"
-              />
-            )}
-          />
+        <View className="mb-4 ">
+          <View className="flex-row justify-between items-center">
+            <StyledText className="text-lg mb-2">Локація:</StyledText>
+            <Controller
+              control={control}
+              name="location"
+              rules={{ required: { value: true, message: "Поле обов'язкове" } }}
+              render={( { field: { onChange, value } } ) => (
+                <CustomSelect
+                  items={locationItems}
+                  selectedValue={value}
+                  onValueChange={( val ) => onChange( val )}
+                  placeholder="Виберіть локацію"
+                />
+              )}
+            />
+
+          </View>
+          {errors.location && (
+            <StyledText
+              className="text-xs text-right text-red font-openslight"
+            >
+              {errors.location.message}
+            </StyledText>
+          )}
         </View>
+
 
         <ControlledImageInput name="images" control={control} />
 

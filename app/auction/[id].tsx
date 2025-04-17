@@ -1,14 +1,8 @@
-import StyledText from "@/components/ui/StyledText";
-import { useLocalSearchParams } from "expo-router/build/hooks";
-import { View } from "react-native";
+import SingleAuction from "@/components/screens/single-auction/SingleAuction";
 
-const SingeAuction = () => {
-  const { id } = useLocalSearchParams();
-
+const SingleAuctionPage = () => {
   return (
-    <View className="bg-black h-full">
-      <StyledText className="mt-20">{id}</StyledText>
-    </View>
+    <SingleAuction />
   );
 };
-export default SingeAuction;
+export default SingleAuctionPage;

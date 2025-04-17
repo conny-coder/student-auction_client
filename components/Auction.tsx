@@ -1,9 +1,10 @@
 import { API_SERVER_URL } from "@/config/api.config";
+import { useToggleFavorite } from "@/hooks/useToggleFavorite";
 import {FavoriteAuctionService} from "@/services/favorite-auction.service";
 import { IAuction } from "@/types/auction.types";
 import { getTimeLeft } from "@/utils/get-time-left";
 import { router } from "expo-router";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Image, Pressable, View } from "react-native";
 import AuctionFavorite from "./ui/AuctionFavorite";
 import AuctionTime from "./ui/AuctionTime";
@@ -29,18 +30,17 @@ const Auction: FC<AuctionProps> = ({
   isBig = false,
 }) => {
   const [isFavoriteState, setIsFavoriteState] = useState(isFavourite);
+  const { mutate } = useToggleFavorite();
+  
+  useEffect(() => {
+    setIsFavoriteState(isFavourite);
+  }, [isFavourite]);
 
   const changeFavorite = async (isFavorite: boolean) =>
   {
     setIsFavoriteState( isFavorite );
 
-    if ( !isFavorite )
-    {
-      await FavoriteAuctionService.delete( _id );
-    } else
-    {
-      await FavoriteAuctionService.set( _id );
-    }
+    mutate({ _id: _id, isFavorite });
   };
 
   const [imageUri, setImageUri] = useState(

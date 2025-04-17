@@ -14,12 +14,16 @@ export const useCreateAuction = () => {
     mutationKey: ['create auction'],
     mutationFn: (auctionPayload: CreateAuctionPayload) => AuctionService.create(auctionPayload).then((res) => res.data),
     onSuccess: (data) => {
-      console.log('Аукцион успешно создан:', data);
+      Toast.show({
+        type: 'success',
+        text1: 'Створення лоту',
+        text2: 'Успішно створено',
+      })
     },
     onError: (error) => {
       Toast.show({
         type: 'error',
-        text1: 'Create auction',
+        text1: 'Створення лоту',
         text2: errorCatch(error),
       })
     },

@@ -2,6 +2,7 @@ import React from "react";
 import { Controller } from "react-hook-form";
 import { Text, View } from "react-native";
 import { IAuctionForm } from "@/types/auction.types";
+import StyledText from "@/components/ui/StyledText";
 
 interface FormFieldProps {
   name: keyof IAuctionForm;
@@ -29,9 +30,9 @@ const FormField: React.FC<FormFieldProps> = ({ name, control, rules, InputCompon
             {...inputProps}
           />
           {error && (
-            <Text className="absolute top-[2px] right-2 text-[10px] text-red font-openslight">
+            <StyledText className="absolute top-[2px] right-2 text-[10px] text-red font-openslight">
               {error.message}
-            </Text>
+            </StyledText>
           )}
         </>
       )}
