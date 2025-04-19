@@ -10,6 +10,6 @@ config.transformer.babelTransformerPath = require.resolve(
 config.resolver.assetExts = config.resolver.assetExts.filter(
   (ext) => ext !== "svg"
 );
-config.resolver.sourceExts = [...config.resolver.sourceExts, "svg"];
+config.resolver.sourceExts = [...config.resolver.sourceExts,"cjs", "svg"];
 
 module.exports = withNativeWind(config, { input: "./assets/global.css" });

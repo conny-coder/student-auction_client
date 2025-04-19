@@ -22,6 +22,7 @@ const TabsLayout = () => {
             borderTopWidth: 1,
             borderColor: "rgba(116, 114, 114, 0.3)",
           },
+          sceneStyle: { backgroundColor: "#0B0C10" },
         }}
       >
         {navigationData.map( ( item ) => (

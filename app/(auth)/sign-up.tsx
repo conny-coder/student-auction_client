@@ -17,7 +17,7 @@ interface ISignUp {
 }
 
 const SignUp = () => {
-  const { register } = useAuthStore((state) => state);
+  const { register, isLoading } = useAuthStore((state) => state);
 
   const {
     control,
@@ -174,7 +174,7 @@ const SignUp = () => {
               </Link>
             </View>
           </View>
-          <Loader />
+          {isLoading && <Loader />}
         </View>
       </ScrollView>
 

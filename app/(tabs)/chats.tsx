@@ -1,10 +1,8 @@
-import { Text, View } from "react-native";
+import Chats from "@/components/screens/chats/Chats";
 
-const Chats = () => {
+const ChatsPage = () => {
   return (
-    <View>
-      <Text>Chats</Text>
-    </View>
+    <Chats />
   );
 };
-export default Chats;
+export default ChatsPage;

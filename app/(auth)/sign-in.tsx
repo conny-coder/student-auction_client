@@ -15,7 +15,7 @@ interface ISignIn {
 }
 
 const SignIn = () => {
-  const { login } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
 
   const {
     control,
@@ -126,7 +126,7 @@ const SignIn = () => {
               </Link>
             </View>
           </View>
-          <Loader />
+          {isLoading && <Loader />}
         </View>
       </ScrollView>
 

@@ -16,6 +16,8 @@ import { useDeleteAuction } from "./useDeleteAuction";
 import { useGetAuction } from "./useGetAuction";
 import Toast from "react-native-toast-message";
 import MyModal from "@/components/MyModal";
+import { useCreateChat } from "@/hooks/useCreateChat";
+import Loader from "@/components/loaders/Loader";
 
 const SingleAuction = () => {
   const { id } = useLocalSearchParams();
@@ -37,6 +39,7 @@ const SingleAuction = () => {
   const { mutate: toggleFavorite } = useToggleFavorite();
   const { mutate: createBid } = useCreateBid();
   const { mutate: deleteAuction } = useDeleteAuction()
+  const { mutate: createChat } = useCreateChat();
 
   const changeFavorite = async (isFavorite: boolean) =>
   {
@@ -46,7 +49,7 @@ const SingleAuction = () => {
   };
 
   // TODO: improve these two blocks with Loader and NotFound component
-  if (isLoading) return <StyledText>Loading...</StyledText>;
+  if (isLoading) return <Loader />;
   if (!data) return <StyledText>Not found</StyledText>;
 
   const handleDelete = () => {
@@ -96,7 +99,7 @@ const SingleAuction = () => {
         </View>
         {data.ownerId !== user?._id
           && <View style={{ width: 250 }}>
-            <StyledButton size="small" handlePress={() => {}} color="gray" className="mb-4">Написати продавцю</StyledButton>
+            <StyledButton size="small" handlePress={() => {createChat(data.ownerId)}} color="gray" className="mb-4">Написати продавцю</StyledButton>
           </View>
         }
         <View className="flex-row justify-between items-center mb-4">

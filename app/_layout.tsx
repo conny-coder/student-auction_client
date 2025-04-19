@@ -1,4 +1,4 @@
-import { SplashScreen, Stack } from "expo-router";
+import { Redirect, SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import "../assets/global.css";
 import * as SystemUI from "expo-system-ui";
@@ -9,6 +9,7 @@ import { TabHeader } from "@/components/TabHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SingleHeader } from "@/components/SingleHeader";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 
 SplashScreen.preventAutoHideAsync();
 SystemUI.setBackgroundColorAsync("#0B0C10");
@@ -21,7 +22,7 @@ export default function RootLayout() {
   useEffect(() => {
     loadUser();
   }, []);
-
+  
   const [fontsLoaded, error] = useFonts({
     "OpenSans-Regular": require("../assets/fonts/OpenSans-Regular.ttf"),
     "OpenSans-Medium": require("../assets/fonts/OpenSans-Medium.ttf"),
@@ -51,6 +52,14 @@ export default function RootLayout() {
           <Stack.Screen
             name="auction/[id]"
             options={{ header: () => <SingleHeader title="Аукціон" /> }}
+          />
+          <Stack.Screen
+            name="chat/[id]"
+            options={{ header: () => <SingleHeader title="Чат" /> }}
+          />
+          <Stack.Screen
+            name="settings/index"
+            options={{ header: () => <SingleHeader title="Налаштування" /> }}
           />
         </Stack>
       </QueryClientProvider>

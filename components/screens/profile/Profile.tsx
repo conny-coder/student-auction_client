@@ -2,17 +2,18 @@ import StyledText from "@/components/ui/StyledText";
 import { API_SERVER_URL } from "@/config/api.config";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, router } from "expo-router";
-import { Image, Pressable, ScrollView, TouchableOpacity, View } from "react-native"
+import { Image, Pressable, ScrollView, Settings, TouchableOpacity, View } from "react-native"
 import InfoCard from "./InfoCard";
 import { useProfile } from "./useProfile";
 import { useAuthStore } from "@/store/useAuthStore";
+import Loader from "@/components/loaders/Loader";
+import SettingsIcon from "@/components/icons/SettingsIcon";
 
 const Profile = () => {
   const user = useAuth();
   const { data, isLoading } = useProfile( user?._id || "" );
-  const {logout} = useAuthStore();
 
-
+  if(isLoading) return <Loader />
 
   return (
     <ScrollView className="bg-black">
@@ -24,8 +25,6 @@ const Profile = () => {
               className="w-36 h-36 rounded-full"
             />
           </View>
-
-          <Pressable onPress={logout}><StyledText className="text-xl font-openssemibold">Редактировать</StyledText></Pressable>
 
           <View className="flex-col flex-1 justify-around">
             <StyledText className="text-xl">{data?.name}</StyledText>
@@ -49,6 +48,9 @@ const Profile = () => {
           <InfoCard borderColor="#28A745" count={data?.winnersCount || 0} title="Виграні лоти" />
           <InfoCard borderColor="#E53935" count={data?.soldCount || 0} title="Продані лоти" />
         </View>
+        <Pressable className="absolute right-4 top-4" onPress={() => router.push( "/settings" )}>
+          <SettingsIcon />
+        </Pressable>
       </View>
     </ScrollView>
   )
