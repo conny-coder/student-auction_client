@@ -1,5 +1,6 @@
 import Auction from "@/components/Auction";
 import HomeAuctionsLoader from "@/components/loaders/HomeAuctionsLoader";
+import HomeTopSellersLoader from "@/components/loaders/HomeTopSellersLoader";
 import Slider from "@/components/Slider";
 import DirectButton from "@/components/ui/DirectButton";
 import StyledText from "@/components/ui/StyledText";
@@ -7,10 +8,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { ScrollView, View } from "react-native";
 import { useAuctions } from "../auctions/useAuctions";
+import SellersItem from "./SellersItem";
+import { useGetTopSellers } from "./useGetTopSellers";
 
 const Home = () => {
   const user = useAuth();
   const { auctions, isLoading } = useAuctions();
+  const { topSellers, isLoading: topSellersLoading } = useGetTopSellers();
 
   return (
     <ScrollView className="bg-black">
@@ -46,17 +50,17 @@ const Home = () => {
         </View>
         <View className="mt-[30px] mb-5">
           <StyledText className="text-xl font-opensmedium mb-4">
-            ТОП продавці тижня
+            ТОП продавці
           </StyledText>
           {isLoading ? (
             <Slider
               data={["", ""]}
-              renderItem={() => <HomeAuctionsLoader />}
+              renderItem={() => <HomeTopSellersLoader />}
             ></Slider>
           ) : (
             <Slider
-              data={auctions.slice(0, 8)}
-              renderItem={(item, index) => <Auction {...item} key={index} />}
+              data={topSellers}
+              renderItem={(item, index) => <SellersItem {...item} key={index} />}
             />
           )}
         </View>

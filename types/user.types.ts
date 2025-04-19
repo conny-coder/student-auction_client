@@ -5,6 +5,13 @@ export interface IUser {
   isAdmin: boolean;
 }
 
+export interface IUserState extends IUser {
+  rating: number;
+  balance: number;
+  name: string;
+  avatar: string;
+}
+
 export interface IProfile extends IUser {
   bidsCount: number;
   winnersCount: number;

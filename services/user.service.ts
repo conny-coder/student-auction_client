@@ -1,9 +1,12 @@
 import { getUsersUrl } from "@/config/api.config";
 import axios from "@/api/interceptors";
-import { IUser } from "@/types/user.types";
+import { IUserState } from "@/types/user.types";
 
 export const UserService = {
   async getById(id: string) {
-    return axios.get<IUser>(getUsersUrl(`/${id}`));
+    return axios.get<IUserState>(getUsersUrl(`/${id}`));
   },
+  async getTopSellers() {
+    return axios.get<Pick<IUserState, "name" | "avatar" | "_id">[]>(getUsersUrl("/top-sellers"));
+  }
 };

@@ -15,6 +15,10 @@ export const AuctionService = {
     return axios.get<IAuction>(getAuctionsUrl(`/${id}`));
   },
 
+  async getByUserId(userId: string) {
+    return axios.get<IAuction[]>(getAuctionsUrl(`/user/${userId}`));
+  },
+
   async delete(id: string) {
     return axios.delete<void>(getAuctionsUrl(`/${id}`));
   }

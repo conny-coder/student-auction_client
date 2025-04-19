@@ -1,22 +1,24 @@
+import Loader from "@/components/loaders/Loader";
+import { useLocalSearchParams } from "expo-router";
+import { useProfile } from "./useProfile";
 import StyledText from "@/components/ui/StyledText";
 import { API_SERVER_URL } from "@/config/api.config";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, router } from "expo-router";
 import { Image, Pressable, ScrollView, Settings, TouchableOpacity, View } from "react-native"
 import InfoCard from "./InfoCard";
-import { useProfile } from "./useProfile";
 import { useAuthStore } from "@/store/useAuthStore";
-import Loader from "@/components/loaders/Loader";
 import SettingsIcon from "@/components/icons/SettingsIcon";
 import { useGetAuctions } from "./useGetAuctions";
 import Slider from "@/components/Slider";
 import HomeAuctionsLoader from "@/components/loaders/HomeAuctionsLoader";
 import Auction from "@/components/Auction";
 
-const Profile = () => {
-  const user = useAuth();
-  const { data, isLoading } = useProfile( user?._id || "" );
-  const {isLoading: myAuctionsLoading, myAuctions} = useGetAuctions(user?._id || "");
+
+const UserProfile = () => {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const {data, isLoading} = useProfile(id);
+  const {isLoading: myAuctionsLoading, myAuctions} = useGetAuctions(id);
 
   if(isLoading) return <Loader />
 
@@ -44,10 +46,6 @@ const Profile = () => {
             </View>
           </View>
         </View>
-        <View className="flex-row items-center justify-center mb-4">
-          <StyledText className="text-xl font-openssemibold">Баланс: {data?.balance} грн | </StyledText>
-          <TouchableOpacity onPress={() => router.push( "/home" )} className="ml-2"><StyledText color="text-green-light" className="text-xl font-openssemibold underline">Поповнити?</StyledText></TouchableOpacity>
-        </View>
         <View className="mt-3 flex-row justify-center gap-4 mb-6">
           <InfoCard borderColor="rgba(197, 198, 199, 0.5)" count={data?.bidsCount || 0} title="Ставки" />
           <InfoCard borderColor="#28A745" count={data?.winnersCount || 0} title="Виграні лоти" />
@@ -55,7 +53,7 @@ const Profile = () => {
         </View>
         <View>
           <StyledText className="text-xl font-opensmedium mb-4">
-            Мої лоти
+            Лоти користувача
           </StyledText>
           {myAuctionsLoading ? (
             <Slider
@@ -76,4 +74,4 @@ const Profile = () => {
     </ScrollView>
   )
 }
-export default Profile
+export default UserProfile

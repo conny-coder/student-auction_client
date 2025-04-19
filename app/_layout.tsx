@@ -61,6 +61,10 @@ export default function RootLayout() {
             name="settings/index"
             options={{ header: () => <SingleHeader title="Налаштування" /> }}
           />
+          <Stack.Screen
+            name="user/[id]"
+            options={{ header: () => <SingleHeader title="Профіль" /> }}
+          />
         </Stack>
       </QueryClientProvider>
       <Toast />
