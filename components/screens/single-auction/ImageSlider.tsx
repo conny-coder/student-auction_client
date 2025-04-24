@@ -1,15 +1,37 @@
-import { FC } from "react"
-import { Image, View } from "react-native"
+import React, { useState } from "react";
+import { View, Image, Modal, Pressable } from "react-native";
 
-interface ImageSliderProps {
-  image: string
-}
+const FullscreenImage: React.FC<{ imageUri: string }> = ({ imageUri }) => {
+  const [visible, setVisible] = useState(false);
 
-const ImageSlider:FC<ImageSliderProps> = ({image}) => {
   return (
     <View>
-      <Image source={{ uri: image }} style={{ width: 350, height: 230, borderRadius: 12 }} resizeMode="stretch" />
+      <Pressable onPress={() => setVisible(true)}>
+        <Image
+          source={{ uri: imageUri }}
+          className="w-[350px] h-[230px] rounded-xl"
+          resizeMode="cover"
+        />
+      </Pressable>
+      <Modal
+        visible={visible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setVisible(false)}
+      >
+        <Pressable
+          className="flex-1 bg-black bg-opacity-80 justify-center items-center"
+          onPress={() => setVisible(false)}
+        >
+          <Image
+            source={{ uri: imageUri }}
+            className="w-full h-full"
+            resizeMode="contain"
+          />
+        </Pressable>
+      </Modal>
     </View>
-  )
-}
-export default ImageSlider
+  );
+};
+
+export default FullscreenImage;

@@ -1,4 +1,4 @@
-import { getCategoriesUrl, getLocationsUrl } from "@/config/api.config";
+import { getLocationsUrl } from "@/config/api.config";
 import axios from "@/api/interceptors";
 import { ILocation } from "@/types/location.types";
 

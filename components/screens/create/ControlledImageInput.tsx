@@ -37,9 +37,8 @@ const ControlledImageInput: React.FC<ControlledImageInputProps> = ({
             {images.length > 0 && (
               <ScrollView horizontal className="mt-2">
                 {images.map((imgUrl, index) => (
-                  <View className="py-3">
+                  <View key={index} className="py-3">
                     <Image
-                      key={index}
                       source={{ uri: imgUrl }}
                       style={{ width: 144, aspectRatio: 1 }}
                       className="w-36 mr-3 rounded-lg"

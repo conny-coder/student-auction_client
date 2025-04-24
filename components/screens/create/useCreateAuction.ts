@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuctionService } from '@/services/auction.service';
 import { IAuction } from '@/types/auction.types';
 import { errorCatch } from '@/api/api.helpers';
@@ -10,6 +10,8 @@ export type CreateAuctionPayload = Omit<
 >;
 
 export const useCreateAuction = () => {
+  const queryClient = useQueryClient();
+
   return useMutation<IAuction, Error, CreateAuctionPayload, unknown>({
     mutationKey: ['create auction'],
     mutationFn: (auctionPayload: CreateAuctionPayload) => AuctionService.create(auctionPayload).then((res) => res.data),
@@ -19,6 +21,8 @@ export const useCreateAuction = () => {
         text1: 'Створення лоту',
         text2: 'Успішно створено',
       })
+
+      queryClient.invalidateQueries({queryKey: ['all-auctions']});
     },
     onError: (error) => {
       Toast.show({

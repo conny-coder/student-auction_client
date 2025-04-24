@@ -18,6 +18,7 @@ import Toast from "react-native-toast-message";
 import MyModal from "@/components/MyModal";
 import { useCreateChat } from "@/hooks/useCreateChat";
 import Loader from "@/components/loaders/Loader";
+import { useProfile } from "../profile/useProfile";
 
 const SingleAuction = () => {
   const { id } = useLocalSearchParams();
@@ -25,6 +26,7 @@ const SingleAuction = () => {
   const user = useAuth()
   const [isBidModalVisible, setIsBidModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const {data: owner} = useProfile(data?.ownerId || "")
 
   const [isFavoriteState, setIsFavoriteState] = useState(data?.isFavourite || false);
   const [bid, setBid] = useState<number>(data ? data.currentBid + data.step : 0);
@@ -82,7 +84,7 @@ const SingleAuction = () => {
               isPagination={true}
               height={200}
               data={data.images}
-              renderItem={(item, index) => <ImageSlider image={item} key={index} />}
+              renderItem={(item, index) => <ImageSlider imageUri={item} key={index} />}
             />
           </StyledText>
         </View>
@@ -95,7 +97,7 @@ const SingleAuction = () => {
         <ExpandableDescription description={data.description} collapsedHeight={90} />
         <View className="mb-3 flex-row justify-between items-center">
           <StyledText className="text-lg mb-3">Продавець:</StyledText>
-          <StyledText className="text-base mb-3 underline">{data.ownerId}</StyledText>
+          <Pressable onPress={() => router.push(`/user/${data.ownerId}`)} className="text-base mb-3 underline"><StyledText className="text-base underline">{owner?.name}</StyledText></Pressable>
         </View>
         {data.ownerId !== user?._id
           && <View style={{ width: 250 }}>
@@ -104,7 +106,7 @@ const SingleAuction = () => {
         }
         <View className="flex-row justify-between items-center mb-4">
           <StyledText className="text-lg mb-3">Локація:</StyledText>
-          <StyledText className="text-base mb-3">{data.location}</StyledText>
+          <StyledText className="text-base mb-3">{data.location.city}, {data.location.region}</StyledText>
         </View>
         <View className="flex-row justify-between items-center mb-4">
           <StyledText className="text-lg mb-3">Залишок часу</StyledText>

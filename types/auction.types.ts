@@ -1,3 +1,5 @@
+import { ILocation } from "./location.types";
+
 export interface IAuction {
   _id: string;
   title: string;
@@ -13,7 +15,7 @@ export interface IAuction {
   condition: "new" | "used";
   currentBid: number;
   isFavourite: boolean;
-  location: string;
+  location: ILocation;
 }
 
 export interface IAuctionForm {

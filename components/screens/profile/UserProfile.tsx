@@ -67,9 +67,6 @@ const UserProfile = () => {
             />
           )}
         </View>
-        <Pressable className="absolute right-4 top-4" onPress={() => router.push( "/settings" )}>
-          <SettingsIcon />
-        </Pressable>
       </View>
     </ScrollView>
   )

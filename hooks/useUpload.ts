@@ -31,8 +31,7 @@ export const useUpload: TypeUpload = (onChange, folder) => {
     onError: ( error ) =>
     {
       Toast.show({
-        type: 'error',
-        text1: 'Upload file',
+        type: 'Завантаження файлу',
         text2: errorCatch( error ),
       })
     },
@@ -43,7 +42,7 @@ export const useUpload: TypeUpload = (onChange, folder) => {
     if (!permissionResult.granted) {
       Toast.show({
         type: 'error',
-        text1: 'Access to gallery denied',
+        text1: 'Доступ до медіа бібліотеки відмовлено',
       })
       return;
     }
@@ -51,7 +50,6 @@ export const useUpload: TypeUpload = (onChange, folder) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
     });
 

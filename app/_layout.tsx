@@ -47,7 +47,7 @@ export default function RootLayout() {
           }}
         >
           <Stack.Screen name="index" />
-          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(auth)" options={{ header: () => null }} />
           <Stack.Screen name="(tabs)" />
           <Stack.Screen
             name="auction/[id]"
@@ -64,6 +64,10 @@ export default function RootLayout() {
           <Stack.Screen
             name="user/[id]"
             options={{ header: () => <SingleHeader title="Профіль" /> }}
+          />
+          <Stack.Screen
+            name="notifications/index"
+            options={{ header: () => <SingleHeader title="Сповіщення" /> }}
           />
         </Stack>
       </QueryClientProvider>
