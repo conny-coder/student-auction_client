@@ -8,8 +8,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useCreateBid } from "@/hooks/useCreateBid";
 import { useToggleFavorite } from "@/hooks/useToggleFavorite";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
-import {  Pressable, ScrollView, TextInput, View } from "react-native"
+import { useCallback, useEffect, useState } from "react";
+import {  Pressable, RefreshControl, ScrollView, TextInput, View } from "react-native"
 import ExpandableDescription from "./ExpandableDescription";
 import ImageSlider from "./ImageSlider";
 import { useDeleteAuction } from "./useDeleteAuction";
@@ -22,10 +22,11 @@ import { useProfile } from "../profile/useProfile";
 
 const SingleAuction = () => {
   const { id } = useLocalSearchParams();
-  const { data, isLoading } = useGetAuction( id as string );
+  const { data, isLoading, refetch } = useGetAuction( id as string );
   const user = useAuth()
   const [isBidModalVisible, setIsBidModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false); 
   const {data: owner} = useProfile(data?.ownerId || "")
 
   const [isFavoriteState, setIsFavoriteState] = useState(data?.isFavourite || false);
@@ -50,9 +51,16 @@ const SingleAuction = () => {
     toggleFavorite({ _id: data?._id || "", isFavorite });
   };
 
-  // TODO: improve these two blocks with Loader and NotFound component
+  
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
+
   if (isLoading) return <Loader />;
   if (!data) return <StyledText>Not found</StyledText>;
+
 
   const handleDelete = () => {
     if (data.highestBidderId === null) {
@@ -75,7 +83,12 @@ const SingleAuction = () => {
   }
 
   return (
-    <ScrollView className="bg-black">
+    <ScrollView className="bg-black" refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
       <View className="px-4">
         <StyledText className="text-xl mb-4">{data.title}</StyledText>
         <View className="mb-4">

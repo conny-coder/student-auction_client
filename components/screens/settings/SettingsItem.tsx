@@ -12,13 +12,16 @@ interface SettingsItemProps {
 
 const SettingsItem:FC<SettingsItemProps> = ({title, onPress, Icon}) => {
   return (
-    <Pressable onPress={onPress} className="flex-row items-center justify-between px-4 py-3">
-      <View className="flex-row items-center gap-6">
-        <Icon />
-        <StyledText className="font-opensmedium text-lg" style={{lineHeight: 20}}>{title}</StyledText>
-      </View>
-      <SettingsArrowIcon />
-    </Pressable>
+    <>
+      <Pressable onPress={onPress} className="flex-row items-center justify-between px-4 py-5">
+        <View className="flex-row items-center gap-6">
+          <Icon />
+          <StyledText className="font-opensmedium text-lg" style={{ lineHeight: 20 }}>{title}</StyledText>
+        </View>
+        <SettingsArrowIcon />
+      </Pressable>
+      <View className="h-0.5 bg-gray-30p mb-2 relative" style={{ left: -15, right: -15, width: 400 }} />
+    </>
   )
 }
 export default SettingsItem

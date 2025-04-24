@@ -5,7 +5,7 @@ import AuctionLoader from "@/components/loaders/AuctionLoader";
 import SearchInput from "@/components/ui/SearchInput";
 import StyledText from "@/components/ui/StyledText";
 import { useEffect, useState } from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { Pressable, RefreshControl, ScrollView, View } from "react-native";
 import Filter from "./filter/Filter";
 import Sort from "./Sort";
 import { AuctionParams, useAuctions } from "./useAuctions";
@@ -22,6 +22,7 @@ const Auctions = () => {
   const [isShowFilter, setIsShowFilter] = useState(false);
   const [isShowSort, setIsShowSort] = useState(false);
   const [query, setQuery] = useState<AuctionParams>(initialParams);
+  const [refreshing, setRefreshing] = useState(false);
 
   const {auctions, isLoading, refetchWithParams} = useAuctions(query);
 
@@ -53,8 +54,20 @@ const Auctions = () => {
   const closeFilter = () => setIsShowFilter(false);
   const closeSort = () => setIsShowSort(false);
 
+  const onRefresh = async () =>
+  {
+    setRefreshing( true );
+    await refetchWithParams( query );
+    setRefreshing( false );
+  };
+
   return (
-    <ScrollView scrollEnabled={!isShowSort && !isShowFilter} className="bg-black">
+    <ScrollView scrollEnabled={!isShowSort && !isShowFilter} className="bg-black" refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
       <View className="px-4 mt-2">
         <SearchInput handleSubmit={handleSubmitInput} />
         <View className="px-4" style={{ marginTop: 20 }}>

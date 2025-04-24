@@ -2,7 +2,7 @@ import StyledText from "@/components/ui/StyledText";
 import { API_SERVER_URL } from "@/config/api.config";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, router } from "expo-router";
-import { Image, Pressable, ScrollView, Settings, TouchableOpacity, View } from "react-native"
+import { Image, Pressable, RefreshControl, ScrollView, Settings, TouchableOpacity, View } from "react-native"
 import InfoCard from "./InfoCard";
 import { useProfile } from "./useProfile";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -12,16 +12,32 @@ import { useGetAuctions } from "./useGetAuctions";
 import Slider from "@/components/Slider";
 import HomeAuctionsLoader from "@/components/loaders/HomeAuctionsLoader";
 import Auction from "@/components/Auction";
+import { useCallback, useState } from "react";
 
 const Profile = () => {
   const user = useAuth();
-  const { data, isLoading } = useProfile( user?._id || "" );
-  const {isLoading: myAuctionsLoading, myAuctions} = useGetAuctions(user?._id || "");
+  const { data, isLoading, refetch: refetchProfile } = useProfile( user?._id || "" );
+  const {isLoading: myAuctionsLoading, myAuctions, refetch: refetchAuctions} = useGetAuctions(user?._id || "");
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([
+      refetchProfile(),
+      refetchAuctions(),
+    ]);
+    setRefreshing(false);
+  }, [refetchProfile, refetchAuctions]);
 
   if(isLoading) return <Loader />
 
   return (
-    <ScrollView className="bg-black">
+    <ScrollView className="bg-black" refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
       <View className="px-4">
         <View className="flex-row items-center gap-7 mt-7 mx-auto mb-3">
           <View className="flex-1 flex-row justify-end">

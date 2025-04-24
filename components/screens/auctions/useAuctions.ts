@@ -32,6 +32,7 @@ export const useAuctions = (initialParams?: AuctionParams) => {
     : [];
 
   const refetchWithParams = (newParams: AuctionParams) => {
+    refetch();
     setParams(newParams);
   };
 

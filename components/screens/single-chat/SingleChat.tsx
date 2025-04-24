@@ -20,7 +20,7 @@ import BtnSendIcon from "@/components/icons/BtnSendIcon";
 import ChatImageIcon from "@/components/icons/ChatImageIcon";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/loaders/Loader";
-// TODO: add time for messages | rewrite header | add possibility to delete message
+
 const SingleChat: React.FC = () => {
   const { id: chatId } = useLocalSearchParams<{ id: string }>();
   const { data: chat, isLoading, refetch } = useChat(chatId);
@@ -33,9 +33,7 @@ const SingleChat: React.FC = () => {
 
   const socketRef = useRef<Socket>();
 
-  // Хук для загрузки картинки и получения URL
   const { uploadFile, isLoading: uploading } = useUpload((url: string) => {
-    // как только картинка загружена – сразу шлём её в чат
     socketRef.current?.emit(
       "sendMessage",
       {
@@ -45,21 +43,18 @@ const SingleChat: React.FC = () => {
         fileUrl: url,
       },
       (saved: IMessage) => {
-        // ACK, но мы также слушаем 'newMessage'
       }
     );
     refetch();
     queryClient.invalidateQueries({queryKey: ['all-chats']});
   });
 
-  // 1) история
   useEffect(() => {
     if (chat?.messages) {
       setMessages([...chat.messages]);
     }
   }, [chat]);
 
-  // 2) сокеты
   useEffect(() => {
     const socket = io(API_SERVER_URL, { query: { chatId } });
     socketRef.current = socket;
@@ -77,7 +72,6 @@ const SingleChat: React.FC = () => {
     };
   }, [chatId]);
 
-  // 3) отправка текста
   const sendText = () => {
     const trimmed = text.trim();
     if (!trimmed) return;
@@ -152,7 +146,6 @@ const SingleChat: React.FC = () => {
           }}
         />
 
-        {/* Кнопка загрузки картинки */}
         <Pressable
           onPress={() => uploadFile()}
           disabled={uploading}
@@ -161,7 +154,6 @@ const SingleChat: React.FC = () => {
           <ChatImageIcon />
         </Pressable>
 
-        {/* Кнопка отправки текста */}
         <Pressable
           onPress={sendText}
           className="absolute right-6"

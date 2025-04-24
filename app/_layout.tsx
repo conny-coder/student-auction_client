@@ -69,6 +69,18 @@ export default function RootLayout() {
             name="notifications/index"
             options={{ header: () => <SingleHeader title="Сповіщення" /> }}
           />
+          <Stack.Screen
+            name="change-password/index"
+            options={{ header: () => <SingleHeader title="Пароль" /> }}
+          />
+          <Stack.Screen
+            name="change-profile/index"
+            options={{ header: () => <SingleHeader title="Особисті дані" /> }}
+          />
+          <Stack.Screen
+            name="transactions/index"
+            options={{ header: () => <SingleHeader title="Транзакції" /> }}
+          />
         </Stack>
       </QueryClientProvider>
       <Toast />

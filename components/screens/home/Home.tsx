@@ -6,18 +6,35 @@ import DirectButton from "@/components/ui/DirectButton";
 import StyledText from "@/components/ui/StyledText";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { useCallback, useState } from "react";
+import { RefreshControl, ScrollView, View } from "react-native";
 import { useAuctions } from "../auctions/useAuctions";
 import SellersItem from "./SellersItem";
 import { useGetTopSellers } from "./useGetTopSellers";
 
 const Home = () => {
   const user = useAuth();
-  const { auctions, isLoading } = useAuctions();
-  const { topSellers, isLoading: topSellersLoading } = useGetTopSellers();
+  const { auctions, isLoading, refetch: refetchAuctions } = useAuctions();
+  const { topSellers, isLoading: topSellersLoading, refetch: refetchSellers } = useGetTopSellers();
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await Promise.all([
+      refetchAuctions(),
+      refetchSellers(),
+    ]);
+    setRefreshing(false);
+  }, [refetchAuctions, refetchSellers]);
 
   return (
-    <ScrollView className="bg-black">
+    <ScrollView className="bg-black" refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    }>
       <View className="px-4">
         <View className="mb-5">
           <StyledText className="text-xl font-opensmedium">
@@ -52,7 +69,7 @@ const Home = () => {
           <StyledText className="text-xl font-opensmedium mb-4">
             ТОП продавці
           </StyledText>
-          {isLoading ? (
+          {topSellersLoading ? (
             <Slider
               data={["", ""]}
               renderItem={() => <HomeTopSellersLoader />}
