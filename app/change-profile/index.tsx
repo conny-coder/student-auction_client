@@ -1,11 +1,8 @@
-import StyledText from "@/components/ui/StyledText"
-import { View } from "react-native"
+import ChangeProfile from "@/components/screens/change-profile/ChangeProfile"
 
-const index = () => {
+const ChangeProfilePage = () => {
   return (
-    <View>
-      <StyledText>Change profile</StyledText>
-    </View>
+    <ChangeProfile />
   )
 }
-export default index
+export default ChangeProfilePage

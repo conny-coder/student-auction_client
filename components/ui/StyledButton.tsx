@@ -8,6 +8,7 @@ interface StyledButtonProps {
   size?: "small" | "big";
   color?: "blue" | "green" | "gray" | "red";
   style? : any;
+  [key: string]: any;
 }
 
 const colors = {
@@ -23,10 +24,12 @@ const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = ({
   children,
   size = "big",
   color = "green",
-  style
+  style,
+  ...props
 }) => {
   return (
     <TouchableOpacity
+      {...props}
       style={style}
       className={`w-full ${size === "big" ? "py-[10px]" : "py-[6px]"} ${
         colors[color]

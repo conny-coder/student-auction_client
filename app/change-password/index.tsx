@@ -1,11 +1,8 @@
-import StyledText from "@/components/ui/StyledText"
-import { View } from "react-native"
+import ChangePassword from "@/components/screens/change-password/ChangePassword"
 
-const index = () => {
+const ChangePasswordPage = () => {
   return (
-    <View>
-      <StyledText>Change password</StyledText>
-    </View>
+    <ChangePassword />
   )
 }
-export default index
+export default ChangePasswordPage

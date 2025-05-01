@@ -22,6 +22,11 @@ const radioOptions = [
   { label: "Б/в", value: "used" },
 ];
 
+export interface IAuctionFormOutput extends Omit<IAuctionForm, "endTime"> {
+  endTime: string;
+  step: number
+}
+
 const Create: React.FC = () => {
   const {
     control,
@@ -48,7 +53,7 @@ const Create: React.FC = () => {
     const now = new Date();
     const endDate = new Date( now.getTime() + data.endTime * 3600000 );
 
-    const transformedData:Omit<IAuction , "_id" | "ownerId" | "highestBidderId" | "status" | "currentBid" | "isFavourite"> = {
+    const transformedData: IAuctionFormOutput = {
       ...data,
       endTime: endDate.toISOString(),
       startPrice: +data.startPrice,

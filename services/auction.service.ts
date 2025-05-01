@@ -1,13 +1,14 @@
 import { getAuctionsUrl } from "@/config/api.config";
 import { IAuction } from "@/types/auction.types";
 import axios from "@/api/interceptors";
+import { IAuctionFormOutput } from "@/components/screens/create/Create";
 
 export const AuctionService = {
   async getAll(params?: Record<string, any>) {
     return axios.get<IAuction[]>(getAuctionsUrl(""), { params });
   },
 
-  async create(auction: Omit<IAuction , "_id" | "ownerId" | "highestBidderId" | "status" | "currentBid" | "isFavourite">) {
+  async create(auction: IAuctionFormOutput) {
     return axios.post<IAuction>(getAuctionsUrl(""), auction);
   },
 

@@ -3,18 +3,14 @@ import { AuctionService } from '@/services/auction.service';
 import { IAuction } from '@/types/auction.types';
 import { errorCatch } from '@/api/api.helpers';
 import Toast from "react-native-toast-message";
-
-export type CreateAuctionPayload = Omit<
-  IAuction,
-  "_id" | "ownerId" | "highestBidderId" | "status" | "currentBid" | "isFavourite"
->;
+import { IAuctionFormOutput } from './Create';
 
 export const useCreateAuction = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<IAuction, Error, CreateAuctionPayload, unknown>({
+  return useMutation<IAuction, Error, IAuctionFormOutput, unknown>({
     mutationKey: ['create auction'],
-    mutationFn: (auctionPayload: CreateAuctionPayload) => AuctionService.create(auctionPayload).then((res) => res.data),
+    mutationFn: (auctionPayload: IAuctionFormOutput) => AuctionService.create(auctionPayload).then((res) => res.data),
     onSuccess: (data) => {
       Toast.show({
         type: 'success',

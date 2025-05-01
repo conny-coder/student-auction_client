@@ -1,24 +1,26 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import { Pressable, Image, ActivityIndicator, Text } from "react-native";
 import ImagePlaceholder from "../icons/ImagePlaceholder";
 import { useUpload } from "@/hooks/useUpload";
-import { getFileUrl } from "@/config/api.config";
 
 interface ImageInputProps {
   onSelect?: (url: string) => void;
+  ImagePicture?: FunctionComponent
 }
 
-const ImageInput: React.FC<ImageInputProps> = ({ onSelect }) => {
+const ImageInput: React.FC<ImageInputProps> = ({ onSelect, ImagePicture }) => {
   const { uploadFile, isLoading } = useUpload((url: string) => {
     if (onSelect) {
-      onSelect(getFileUrl(url));
+    console.log(url);
+    
+      onSelect(url);
     }
   });
 
   return (
     <Pressable
       onPress={uploadFile}
-      style={{
+      style={!ImagePicture && {
         width: 70,
         height: 45,
         borderColor: "rgba(197, 198, 199, 0.35)",
@@ -31,6 +33,9 @@ const ImageInput: React.FC<ImageInputProps> = ({ onSelect }) => {
       {isLoading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) :
+        ImagePicture ? (
+          <ImagePicture />
+        ) :
         <ImagePlaceholder />
       }
     </Pressable>
