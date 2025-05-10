@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import ImageInput from "@/components/ui/ImageInput";
 import StyledText from "@/components/ui/StyledText";
 import DelBtnIcon from "@/components/icons/DelBtnIcon";
+import { API_SERVER_URL } from "@/config/api.config";
 
 interface ControlledImageInputProps {
   name: string;
@@ -39,7 +40,7 @@ const ControlledImageInput: React.FC<ControlledImageInputProps> = ({
                 {images.map((imgUrl, index) => (
                   <View key={index} className="py-3">
                     <Image
-                      source={{ uri: imgUrl }}
+                      source={{ uri: API_SERVER_URL + imgUrl }}
                       style={{ width: 144, aspectRatio: 1 }}
                       className="w-36 mr-3 rounded-lg"
                       resizeMode="cover"

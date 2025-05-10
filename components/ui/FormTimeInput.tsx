@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { TextInput, TextInputProps, View } from "react-native";
-import CurrencyIcon from "../icons/CurrencyIcon";
 import StyledText from "./StyledText";
 
 interface FormInputInputProps extends TextInputProps {

@@ -40,12 +40,12 @@ export const TabHeader: React.FC = () => {
         <View className="absolute p-4" 
         style={{ top: 49, left: -30, backgroundColor: "rgba(21, 22, 25, 0.95)", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, opacity: isShow ? 1000 : 0, pointerEvents: isShow ? "auto" : "none",  transitionDelay: "0.2s", transitionDuration: "0.2s", transitionTimingFunction: "ease-in-out" }}>
           <Pressable >
-            <StyledText className="text-lg font-openssemibold" color="text-green">
+            <StyledText onPress={() => { router.push("/transactions/operations") }} className="text-lg font-openssemibold" color="text-green">
               Поповнити
             </StyledText>
           </Pressable>
           <Pressable >
-            <StyledText className="text-lg font-openssemibold" color="text-red">
+            <StyledText onPress={() => { router.push("/transactions/operations") }} className="text-lg font-openssemibold" color="text-red">
               Вивести
             </StyledText>
           </Pressable>

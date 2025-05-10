@@ -51,7 +51,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" />
           <Stack.Screen
             name="auction/[id]"
-            options={{ header: () => <SingleHeader title="Аукціон" /> }}
+            options={{ header: () => <SingleHeader title="Лот" /> }}
           />
           <Stack.Screen
             name="chat/[id]"
@@ -80,6 +80,14 @@ export default function RootLayout() {
           <Stack.Screen
             name="transactions/index"
             options={{ header: () => <SingleHeader title="Транзакції" /> }}
+          />
+          <Stack.Screen
+            name="transactions/history"
+            options={{ header: () => <SingleHeader title="Історія транзакцій" /> }}
+          />
+          <Stack.Screen
+            name="transactions/operations"
+            options={{ header: () => <SingleHeader title="Операції з коштами" /> }}
           />
         </Stack>
       </QueryClientProvider>

@@ -1,11 +1,8 @@
-import StyledText from "@/components/ui/StyledText"
-import { View } from "react-native"
+import Transactions from "@/components/screens/transactions/Transactions"
 
-const index = () => {
+const TransactionsPage = () => {
   return (
-    <View>
-      <StyledText>Transactions</StyledText>
-    </View>
+    <Transactions />
   )
 }
-export default index
+export default TransactionsPage

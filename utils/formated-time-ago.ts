@@ -33,3 +33,17 @@ export function formatTimeAgo(isoDate: string): string {
   return 'щойно';
 }
 
+export function formatDateDDMMYYYY(iso: string): string {
+  const d = new Date(iso)
+  const day   = String(d.getDate()).padStart(2, '0')
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const year  = d.getFullYear()
+  return `${day}.${month}.${year}`
+}
+
+export function formatTimeHHMM(iso: string): string {
+  const d = new Date(iso)
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  return `${hh}:${mm}`
+}

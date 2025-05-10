@@ -16,7 +16,7 @@ const Chats = () => {
   }, [refetch]);
 
   if(isLoading) return <Loader />
-  if(!data) return <StyledText>Chats not found</StyledText>;
+  if(!data?.length) return <StyledText>Чатів немає</StyledText>;
   
   return (
     <ScrollView className="bg-black pt-5 px-4" refreshControl={

@@ -8,6 +8,7 @@ export const getCategoriesUrl = (string: string) => `/category${string}`;
 export const getChatsUrl = (string: string) => `/chat${string}`;
 export const getLocationsUrl = (string: string) => `/location${string}`;
 export const getNotificationsUrl = (string: string) => `/notification${string}`;
+export const getTransactionsUrl = (string: string) => `/transaction${string}`;
 export const getProfilesUrl = (string: string) => `/user/profile${string}`;
 export const getUsersUrl = (string: string) => `/user${string}`;
 export const getBidsUrl = (string: string) => `/bid${string}`;
