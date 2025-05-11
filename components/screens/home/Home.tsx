@@ -38,7 +38,7 @@ const Home = () => {
       <View className="px-4">
         <View className="mb-5">
           <StyledText className="text-xl font-opensmedium">
-            Вітаю, {user?.userName}!
+            Вітаю, {user?.name}!
           </StyledText>
           <StyledText className="-tracking-widest">
             Купуй та продавай — швидко, зручно, вигідно!🚀

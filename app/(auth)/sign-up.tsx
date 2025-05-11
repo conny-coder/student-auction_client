@@ -159,7 +159,7 @@ const SignUp = () => {
                 </Text>
               )}
             </View>
-            <StyledButton className="mt-3" handlePress={handleSubmit(onSubmit)}>
+            <StyledButton className="mt-3 mb-2" handlePress={handleSubmit(onSubmit)}>
               Створити аккаунт
             </StyledButton>
             <View

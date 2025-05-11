@@ -3,7 +3,7 @@ import { IProfile } from "./user.types";
 
 export interface IChat {
   chatId: string;
-  otherUser: IProfile;
+  otherUser: IProfile | null;
   lastMessage: IMessage | null;
   updatedAt: string;
 }

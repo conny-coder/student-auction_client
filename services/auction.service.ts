@@ -8,6 +8,10 @@ export const AuctionService = {
     return axios.get<IAuction[]>(getAuctionsUrl(""), { params });
   },
 
+  async getBided() {
+    return axios.get<IAuction[]>(getAuctionsUrl("/bided"));
+  },
+
   async create(auction: IAuctionFormOutput) {
     return axios.post<IAuction>(getAuctionsUrl(""), auction);
   },

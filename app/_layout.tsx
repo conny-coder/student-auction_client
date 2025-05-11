@@ -46,9 +46,9 @@ export default function RootLayout() {
             header: () => <TabHeader />,
           }}
         >
-          <Stack.Screen name="index" />
+          <Stack.Screen name="index" options={{ header: () => null }} />
           <Stack.Screen name="(auth)" options={{ header: () => null }} />
-          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="(tabs)" options={{ header: () => null }} />
           <Stack.Screen
             name="auction/[id]"
             options={{ header: () => <SingleHeader title="Лот" /> }}
@@ -63,7 +63,9 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="user/[id]"
-            options={{ header: () => <SingleHeader title="Профіль" /> }}
+            options={( { route } : any ) => ( {
+              header: () => <SingleHeader title="Profile" id={route.params.id} />, 
+            } )}
           />
           <Stack.Screen
             name="notifications/index"

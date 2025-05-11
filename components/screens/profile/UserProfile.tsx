@@ -3,24 +3,26 @@ import { useLocalSearchParams } from "expo-router";
 import { useProfile } from "./useProfile";
 import StyledText from "@/components/ui/StyledText";
 import { API_SERVER_URL } from "@/config/api.config";
-import { useAuth } from "@/hooks/useAuth";
-import { Link, router } from "expo-router";
-import { Image, Pressable, ScrollView, Settings, TouchableOpacity, View } from "react-native"
+import { Image, ScrollView, View } from "react-native"
 import InfoCard from "./InfoCard";
-import { useAuthStore } from "@/store/useAuthStore";
-import SettingsIcon from "@/components/icons/SettingsIcon";
 import { useGetAuctions } from "./useGetAuctions";
 import Slider from "@/components/Slider";
 import HomeAuctionsLoader from "@/components/loaders/HomeAuctionsLoader";
 import Auction from "@/components/Auction";
-
+import { useGetReviews } from "./useGetReviews";
+import Review from "./Review";
+import Rating from "@/components/ui/Rating";
 
 const UserProfile = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const {data, isLoading} = useProfile(id);
-  const {isLoading: myAuctionsLoading, myAuctions} = useGetAuctions(id);
 
-  if(isLoading) return <Loader />
+  const { data, isLoading } = useProfile( id );
+  const { isLoading: myAuctionsLoading, myAuctions } = useGetAuctions( id );
+  const { data: reviews, isLoading: reviewsLoading } = useGetReviews( id )
+
+  if(isLoading && reviewsLoading) return <Loader />
+
+  if (!data && !isLoading) return <StyledText>Profile not found</StyledText>
 
   return (
     <ScrollView className="bg-black">
@@ -33,39 +35,52 @@ const UserProfile = () => {
             />
           </View>
 
-          <View className="flex-col flex-1 justify-around">
+          <View className="flex-col flex-1 justify-around gap-2">
             <StyledText className="text-xl">{data?.name}</StyledText>
             <View>
               <StyledText color="text-gray-70p" className="text-lg">Рейтинг</StyledText>
               <View>
                 <Image className="absolute" source={require( "@/assets/images/rating-stroke.png" )} />
-                <View style={{ width: 115 / 5 * (data?.rating || 1), overflow: "hidden" }}>
-                  <Image source={require( "@/assets/images/rating-full.png" )} />
-                </View>
+                <Rating rating={data?.rating || 0} />
               </View>
             </View>
           </View>
         </View>
         <View className="mt-3 flex-row justify-center gap-4 mb-6">
           <InfoCard borderColor="rgba(197, 198, 199, 0.5)" count={data?.bidsCount || 0} title="Ставки" />
-          <InfoCard borderColor="#28A745" count={data?.winnersCount || 0} title="Виграні лоти" />
+          <InfoCard borderColor="#28A745" count={data?.winnerCount || 0} title="Виграні лоти" />
           <InfoCard borderColor="#E53935" count={data?.soldCount || 0} title="Продані лоти" />
         </View>
-        <View>
+        <View className="mb-4">
           <StyledText className="text-xl font-opensmedium mb-4">
             Лоти користувача
           </StyledText>
+
           {myAuctionsLoading ? (
             <Slider
               data={["", ""]}
               renderItem={() => <HomeAuctionsLoader />}
             ></Slider>
           ) : (
-            <Slider
-              data={myAuctions.slice(0, 8)}
-              renderItem={(item, index) => <Auction {...item} key={index} />}
+            myAuctions?.length === 0 ? (
+              <StyledText color="text-gray-70p" className="text-base font-opensmedium">
+                У користувача немає лотів
+              </StyledText>
+            ) : <Slider
+              data={myAuctions.slice( 0, 8 )}
+              renderItem={( item, index ) => <Auction {...item} key={index} />}
             />
           )}
+        </View>
+
+        {reviews?.length !== 0 &&
+          <StyledText className="text-xl font-opensmedium mb-4">
+            Відгуки
+          </StyledText>
+        }
+
+        <View>
+          {reviews?.map((item, index) => <Review key={index} author={item.author} rating={item.rating} comment={item.comment} />)}
         </View>
       </View>
     </ScrollView>

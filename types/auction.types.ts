@@ -28,3 +28,9 @@ export interface IAuctionForm {
   condition: "new" | "used";
   location: string;
 }
+
+export interface IFavouriteAuction {
+  _id: string;
+  userId: string;
+  auction: IAuction;
+}

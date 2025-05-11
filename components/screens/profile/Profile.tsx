@@ -13,23 +13,32 @@ import Slider from "@/components/Slider";
 import HomeAuctionsLoader from "@/components/loaders/HomeAuctionsLoader";
 import Auction from "@/components/Auction";
 import { useCallback, useState } from "react";
+import { useGetReviews } from "./useGetReviews";
+import Review from "./Review";
+import Rating from "@/components/ui/Rating";
+import MyTabs from "./MyTabs";
+import { useTabsInfo } from "./useTabsInfo";
 
 const Profile = () => {
   const user = useAuth();
   const { data, isLoading, refetch: refetchProfile } = useProfile( user?._id || "" );
-  const {isLoading: myAuctionsLoading, myAuctions, refetch: refetchAuctions} = useGetAuctions(user?._id || "");
+  const { isLoadingMyAuctions, myAuctions, isLoadingMyFavoriteAuctions, myFavoriteAuctions, refetchAllAuctions, isLoadingBidedAuctions, bidedAuctions } = useTabsInfo();
+  const {data: reviews, isLoading: reviewsLoading, refetch: refetchReviews} = useGetReviews(user?._id || "");
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await Promise.all([
       refetchProfile(),
-      refetchAuctions(),
+      refetchAllAuctions(),
+      refetchReviews()
     ]);
     setRefreshing(false);
-  }, [refetchProfile, refetchAuctions]);
+  }, [refetchProfile, refetchAllAuctions]);
 
-  if(isLoading) return <Loader />
+  if(isLoading && reviewsLoading) return <Loader />
+
+  if (!isLoading && !data) return <StyledText>Profile not found</StyledText>
 
   return (
     <ScrollView className="bg-black" refreshControl={
@@ -38,7 +47,7 @@ const Profile = () => {
         onRefresh={onRefresh}
       />
     }>
-      <View className="px-4">
+      <View className="px-4 pb-2">
         <View className="flex-row items-center gap-7 mt-7 mx-auto mb-3">
           <View className="flex-1 flex-row justify-end">
             <Image
@@ -47,16 +56,11 @@ const Profile = () => {
             />
           </View>
 
-          <View className="flex-col flex-1 justify-around">
+          <View className="flex-col flex-1 justify-around gap-4">
             <StyledText className="text-xl">{data?.name}</StyledText>
             <View>
               <StyledText color="text-gray-70p" className="text-lg">Рейтинг</StyledText>
-              <View>
-                <Image className="absolute" source={require( "@/assets/images/rating-stroke.png" )} />
-                <View style={{ width: 115 / 5 * (data?.rating || 1), overflow: "hidden" }}>
-                  <Image source={require( "@/assets/images/rating-full.png" )} />
-                </View>
-              </View>
+              <Rating rating={data?.rating || 0} />
             </View>
           </View>
         </View>
@@ -66,28 +70,19 @@ const Profile = () => {
         </View>
         <View className="mt-3 flex-row justify-center gap-4 mb-6">
           <InfoCard borderColor="rgba(197, 198, 199, 0.5)" count={data?.bidsCount || 0} title="Ставки" />
-          <InfoCard borderColor="#28A745" count={data?.winnersCount || 0} title="Виграні лоти" />
+          <InfoCard borderColor="#28A745" count={data?.winnerCount || 0} title="Виграні лоти" />
           <InfoCard borderColor="#E53935" count={data?.soldCount || 0} title="Продані лоти" />
         </View>
-        <View>
-          <StyledText className="text-xl font-opensmedium mb-4">
-            Мої лоти
-          </StyledText>
-          {myAuctionsLoading ? (
-            <Slider
-              data={["", ""]}
-              renderItem={() => <HomeAuctionsLoader />}
-            ></Slider>
-          ) : (
-            <Slider
-              data={myAuctions.slice(0, 8)}
-              renderItem={(item, index) => <Auction {...item} key={index} />}
-            />
-          )}
+        <View className="mb-4">
+          <MyTabs favorites={myFavoriteAuctions} myBids={bidedAuctions} myLots={myAuctions} isLoadingBids={isLoadingBidedAuctions} isLoadingFavorites={isLoadingMyFavoriteAuctions} isLoadingLots={isLoadingMyAuctions} />
         </View>
-        <Pressable className="absolute right-4 top-4" onPress={() => router.push( "/settings" )}>
-          <SettingsIcon />
-        </Pressable>
+
+        <StyledText className="text-xl font-opensmedium mb-4">
+          Відгуки
+        </StyledText>
+        <View>
+          {reviews?.map((item, index) => <Review key={index} author={item.author} rating={item.rating} comment={item.comment} />)}
+        </View>
       </View>
     </ScrollView>
   )

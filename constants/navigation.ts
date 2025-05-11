@@ -12,8 +12,8 @@ const navigation: INavigation[] = [
     icon: require("../assets/images/navigation/auctions.png"),
   },
   { name: "create", icon: require("../assets/images/navigation/create.png") },
-  { name: "chats", icon: require("../assets/images/navigation/chats.png") },
-  { name: "profile", icon: require("../assets/images/navigation/profile.png") },
+  // { name: "chats", icon: require("../assets/images/navigation/chats.png") },
+  // { name: "profile", icon: require("../assets/images/navigation/profile.png") },
 ];
 
 export default navigation;

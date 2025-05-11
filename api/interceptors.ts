@@ -3,14 +3,15 @@ import { AuthService } from "@/services/auth/auth.service";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { errorCatch, getContentType } from "./api.helpers";
+import { API_SERVER_URL } from "@/config/api.config";
 
 export const axiosClassic = axios.create({
-  baseURL: "https://student-auction-server.onrender.com/api",
+  baseURL: API_SERVER_URL + "/api",
   headers: getContentType(),
 });
 
 export const instance = axios.create({
-  baseURL: "https://student-auction-server.onrender.com/api",
+  baseURL: API_SERVER_URL + "/api",
   headers: getContentType(),
 });
 

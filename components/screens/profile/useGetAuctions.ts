@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetAuctions = (id: string) => {
   const {data, isLoading, refetch} = useQuery({
-    queryKey: ["my-auctions"],
+    queryKey: [`my-auctions ${id}`],
     queryFn: () => AuctionService.getByUserId(id || ""),
     select: ({ data }) => data,
   })

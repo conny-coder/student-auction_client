@@ -26,7 +26,16 @@ const Chats = () => {
       />
     }>
       <View>
-        {data.map(chat => <ChatItem key={chat.chatId} id={chat.chatId} avatar={chat.otherUser.avatar} name={chat.otherUser.name} message={chat.lastMessage ? chat.lastMessage.type === "text" ? chat.lastMessage.text || "" : "Надіслано фото" : "Напишіть перше повідомлення"} />)}
+        {data.map( chat => <ChatItem
+          key={chat.chatId}
+          id={chat.chatId}
+          avatar={chat.otherUser?.avatar || ""}
+          name={chat.otherUser?.name || ""}
+          message={chat.lastMessage
+            ? chat.lastMessage.type === "text"
+              ? chat.lastMessage.text
+              || "" : "Надіслано фото" : "Напишіть перше повідомлення"}
+        /> )}
       </View>
     </ScrollView>
   )
