@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { View, Pressable } from 'react-native';
 import StyledText from '@/components/ui/StyledText';
 import Auction, { AuctionProps } from '@/components/Auction';
-import { IAuction } from '@/types/auction.types';
 import Slider from '@/components/Slider';
 import HomeAuctionsLoader from '@/components/loaders/HomeAuctionsLoader';
 

@@ -52,7 +52,7 @@ const Auction: FC<AuctionProps> = ({
     <View>
       <View>
         <Image
-          source={imageUri ? { uri: imageUri } : fallbackImage}
+          source={imageUri ? { uri: API_SERVER_URL + imageUri } : fallbackImage}
           style={isBig ? { width: "100%", height: 200, borderRadius: 10, objectFit: "cover" } : {
             width: 250,
             height: 140,

@@ -23,15 +23,17 @@ export const useUpload: TypeUpload = (onChange, folder) => {
 
   const { mutateAsync } = useMutation<UploadResponse, Error, FormData, unknown>( {
     mutationKey: ['upload file'],
-    mutationFn: ( data: FormData ) => FileService.upload( data, folder ),
+    mutationFn: (data) => FileService.upload(data, folder),
     onSuccess: ( data ) =>
     {
       onChange( data.data[0].url );
     },
     onError: ( error ) =>
     {
+    console.log('Error uploading file', error);
       Toast.show({
-        type: 'Завантаження файлу',
+        type: 'error',
+        text1: 'Завантаження картинки',
         text2: errorCatch( error ),
       })
     },
@@ -58,15 +60,28 @@ export const useUpload: TypeUpload = (onChange, folder) => {
     }
 
     const asset = result.assets?.[0];
+    const uri = asset.uri;
     if (!asset?.uri) return;
 
-    // Создаём FormData для загрузки файла
+    const match = /\.([a-zA-Z0-9]+)(?:\?|$)/.exec( uri );
+    const ext = match?.[1].toLowerCase() ?? 'jpg';
+
+    const mime = ext === 'webp'
+      ? 'image/webp'
+      : ext === 'png'
+        ? 'image/png'
+        : 'image/jpeg';
+
+    const name = asset.fileName
+      ? asset.fileName
+      : `upload_${Date.now()}.${ext}`;
+
     const formData = new FormData();
-    formData.append('file', {
-      uri: asset.uri,
-      name: 'image.jpg',
-      type: 'image/jpeg',
-    } as any);
+    formData.append( 'file', {
+      uri,
+      name,
+      type: mime,
+    } as any );
 
     setIsLoading(true);
 

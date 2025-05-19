@@ -2,7 +2,7 @@ import { API_SERVER_URL } from "@/config/api.config";
 import React, { useState } from "react";
 import { View, Image, Modal, Pressable } from "react-native";
 
-const FullscreenImage: React.FC<{ imageUri: string }> = ({ imageUri }) => {
+const ImageSlider: React.FC<{ imageUri: string }> = ({ imageUri }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -25,7 +25,7 @@ const FullscreenImage: React.FC<{ imageUri: string }> = ({ imageUri }) => {
           onPress={() => setVisible(false)}
         >
           <Image
-            source={{ uri: imageUri }}
+            source={{ uri: API_SERVER_URL + imageUri }}
             className="w-full h-full"
             resizeMode="contain"
           />
@@ -35,4 +35,4 @@ const FullscreenImage: React.FC<{ imageUri: string }> = ({ imageUri }) => {
   );
 };
 
-export default FullscreenImage;
+export default ImageSlider;

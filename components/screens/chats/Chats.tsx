@@ -16,7 +16,7 @@ const Chats = () => {
   }, [refetch]);
 
   if(isLoading) return <Loader />
-  if(!data?.length) return <StyledText>Чатів немає</StyledText>;
+  if(!data?.length) return <StyledText color="text-gray-70p" className="top-2 left-4 text-xl">Чатів немає</StyledText>;
   
   return (
     <ScrollView className="bg-black pt-5 px-4" refreshControl={
@@ -25,18 +25,21 @@ const Chats = () => {
         onRefresh={onRefresh}
       />
     }>
-      <View>
-        {data.map( chat => <ChatItem
-          key={chat.chatId}
-          id={chat.chatId}
-          avatar={chat.otherUser?.avatar || ""}
-          name={chat.otherUser?.name || ""}
-          message={chat.lastMessage
-            ? chat.lastMessage.type === "text"
-              ? chat.lastMessage.text
-              || "" : "Надіслано фото" : "Напишіть перше повідомлення"}
-        /> )}
-      </View>
+      {!data?.length ? <StyledText color="text-gray-70p" className="top-2 left-4 text-xl">Чатів немає</StyledText> : (
+        <View>
+          {data.map( chat => <ChatItem
+            key={chat.chatId}
+            id={chat.chatId}
+            avatar={chat.otherUser?.avatar || ""}
+            name={chat.otherUser?.name || ""}
+            message={chat.lastMessage
+              ? chat.lastMessage.type === "text"
+                ? chat.lastMessage.text
+                || "" : "Надіслано фото" : "Напишіть перше повідомлення"}
+          /> )}
+        </View>
+      )}
+
     </ScrollView>
   )
 }

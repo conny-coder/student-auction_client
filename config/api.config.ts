@@ -1,5 +1,5 @@
 // export const API_URL = `${process.env.APP_URL}/api`;
-export const API_SERVER_URL = `http://192.168.1.6:4200`;
+export const API_SERVER_URL = `https://student-auction-server.onrender.com`; // http://192.168.1.6:4200
 
 export const getAuthUrl = (string: string) => `/auth${string}`;
 export const getAuctionsUrl = (string: string) => `/auction${string}`;

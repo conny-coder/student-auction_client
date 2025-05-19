@@ -92,7 +92,7 @@ const SingleChat: React.FC = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (!chat) return <StyledText>Chat not found</StyledText>;
+  if (!chat) return <StyledText>Чат не знайдено</StyledText>;
 
   return (
     <KeyboardAvoidingView
@@ -129,7 +129,7 @@ const SingleChat: React.FC = () => {
         }}
       />
 
-      <View className="flex-row items-center p-2 border-t border-gray-700 bg-black">
+      <View className="flex-row items-center p-2 border-t border-gray-700 bg-black mt-2">
         <TextInput
           value={text}
           onChangeText={setText}

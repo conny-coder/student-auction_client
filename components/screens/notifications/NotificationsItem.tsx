@@ -1,5 +1,6 @@
 import StyledButton from "@/components/ui/StyledButton";
 import StyledText from "@/components/ui/StyledText"
+import { API_SERVER_URL } from "@/config/api.config";
 import { useCreateChat } from "@/hooks/useCreateChat";
 import { IAuction } from "@/types/auction.types"
 import { formatTimeAgo } from "@/utils/formated-time-ago";
@@ -77,7 +78,7 @@ const NotificationsItem: FC<NotificationsItemProps> = ( { auction, createdAt, is
       <View className="mb-6">
         <StyledText className={`font-openssemibold text-lg mb-4`} color={isRead ? "text-gray-70p" : "text-primary"}>{title[type]}</StyledText>
         <View className="flex-row items-center gap-2 mb-4">
-          <Image source={{ uri: auction.images[0] }} style={{ width: 160, height: 100, borderRadius: 10 }} resizeMode="cover" />
+          <Image source={{ uri: API_SERVER_URL + auction.images[0] }} style={{ width: 160, height: 100, borderRadius: 10 }} resizeMode="cover" />
           <View style={{ maxWidth: 220 }}>
             <StyledText
               color={isRead ? "text-gray-70p" : "text-primary"}
